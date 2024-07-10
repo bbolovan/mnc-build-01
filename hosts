@@ -1,11 +1,11 @@
 [2x2MNC_core0]
-1.1.1.1
+172.22.91.81
 [2x2MNC_core1]
-1.1.1.2
+172.22.91.97
 [2x2MNC_data0]
-1.1.1.3
+172.22.91.98
 [2x2MNC_data1]
-1.1.1.4
+172.22.91.99
 
 [corenodes:children]
 2x2MNC_core0
