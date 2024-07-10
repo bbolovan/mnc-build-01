@@ -1,2 +1,3 @@
-# snc-build-01
-# snc-build-01
+#MNC build
+
+2x2 cluster
