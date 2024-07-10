@@ -1,130 +1,24 @@
-# This is the default ansible 'hosts' file.
-#
-# It should live in /etc/ansible/hosts
-#
-#   - Comments begin with the '#' character
-#   - Blank lines are ignored
-#   - Groups of hosts are delimited by [header] elements
-#   - You can enter hostnames or ip addresses
-#   - A hostname/ip can be a member of multiple groups
+[2x2MNC_core0]
+1.1.1.1
+[2x2MNC_core1]
+1.1.1.2
+[2x2MNC_data0]
+1.1.1.3
+[2x2MNC_data1]
+1.1.1.4
 
-# Ex 1: Ungrouped hosts, specify before any group headers.
+[corenodes:children]
+2x2MNC_core0
+2x2MNC_core1
+[datanodes:children]
+2x2MNC_data0
+2x2MNC_data1
+[core0:children]
+2x2MNC_core0
+[data0:children]
+2x2MNC_data0
+[data1:children]
+2x2MNC_data1
 
-## green.example.com
-## blue.example.com
-## 192.168.100.1
-## 192.168.100.10
-
-# Ex 2: A collection of hosts belonging to the 'webservers' group
-
-## [webservers]
-## alpha.example.org
-## beta.example.org
-## 192.168.1.100
-## 192.168.1.110
-
-# If you have multiple hosts following a pattern you can specify
-# them like this:
-
-## www[001:006].example.com
-
-# Ex 3: A collection of database servers in the 'dbservers' group
-
-## [dbservers]
-## 
-## db01.intranet.mydomain.net
-## db02.intranet.mydomain.net
-## 10.25.1.56
-## 10.25.1.57
-
-# Here's another example of host ranges, this time there are no
-# leading 0s:
-
-## db-[99:101]-node.example.com
- 
- all:
-   hosts:
-   children:
-     pce:
-       children:
-          snc1:
-            hosts:
-              172.22.91.89:
-          sncnodes:
-            children:
-              snc0:
-                hosts:
-                  172.22.91.89:
-#         corenodes:
-#           children:
-#             core0:
-#               hosts:
-#                 192.168.50.226:
-#                 192.168.50.234:
-#             core1:
-#               hosts:
-#                 192.168.50.227:
-#                 192.168.50.235:
-#             core2:
-#               hosts:
-#                 192.168.50.236:
-#             core3:
-#               hosts:
-#                 192.168.50.237:
-#         datanodes:
-#           children:
-#             data0:
-#               hosts:
-#                 192.168.50.228:
-#                 192.168.50.238:
-#             data1:
-#               hosts:
-#                 192.168.50.229:
-#                 192.168.50.239:
-#[pce:children]
-#snc1
-#mnc13
-#mnc14
-#[snc1:children]
-#sncnodes
-#[sncnodes:children]
-#snc0
-#[snc0]
-#172.22.91.81
-
-#[mnc13:children]
-#corenodes
-#datanodes
-#[corenodes:children]
-#core0
-#core1
-#[datanodes:children]
-#data0
-#data1
-#[core0]
-#192.168.50.226
-#[core1]
-#192.168.50.227
-#[data0]
-#192.168.50.228
-#[data1]
-#192.168.50.229
-
-#[mnc14:children]
-#mnc14corenodes
-#mnc14datanodes
-#[mnc14corenodes:children]
-#mnc14core0
-#mnc14core1
-#[mnc14datanodes:children]
-#mnc14data0
-#mnc14data1
-#[mnc14core0]
-#192.168.50.234
-#[mnc14core1]
-#192.168.50.235
-#[mnc14data0]
-#192.168.50.238
-#[mnc14data1]
-#192.168.50.239
-
+[all:vars]
+ansible_remote_tmp=/var/tmp/
