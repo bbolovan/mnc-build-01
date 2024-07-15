@@ -35,6 +35,10 @@ cluster_public_ips:
   - {{ip}}
 {% endfor %}
 {% endif %}
+{% if load_balancer_ip %}
+  - {{load_balancer_ip}}
+{% endif %}
+
 export_flow_summaries_to_syslog:
   - accepted
   - potentially_blocked
