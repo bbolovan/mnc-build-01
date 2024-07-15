@@ -1,8 +1,33 @@
 ---
-#- name:  Uninstall VEN
-#- name:  Display VEN results
-#- name:  Check iptables
-#- name:  Display iptables results
+- name:  Uninstall VEN
+  command: "/opt/illumio_ven/illumio-ven-ctl unpair open"
+  register: ven_unpair_out
+  ignore_errors: True
+
+
+- name:  Display VEN Unpair results
+  debug:
+    var: ven_unpair_out.stdout_lines
+
+- name:  List iptables
+  command: "iptables -L"
+  register: iptables_out
+  ignore_errors: True
+
+- name:  Display iptables results
+  debug:
+    var: iptables_out.stdout_lines
+
+- name: List nftables ruleset
+  command: "nft list ruleset"
+  register: nftables_output
+  ignore_errors: True
+
+- name: Print nftables ruleset
+  debug:
+    var: nftables_output.stdout_lines
+
+
 - name: "Check for and install dependencies"
   yum:
     state: present
