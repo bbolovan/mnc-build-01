@@ -6,28 +6,54 @@ ephemeral_data_root: {{ephemeral_data_dir}}
 log_dir: {{log_dir}}
 private_key_cache_dir: {{private_key_cache_dir}}
 node_type: {{node_class}}
-web_service_certificate: {{cert_dir}}/{{machine_cert}}
-web_service_private_key: {{cert_dir}}/{{machine_private_key}}
+cluster_type: {{cluster_type}}
 trusted_ca_bundle: /etc/ssl/certs/ca-bundle.crt
 front_end_https_port: {{ven_port}}
 front_end_management_https_port: {{mgmt_port}}
 front_end_event_service_port: {{ven_lightning_port}}
-pce_fqdn: {{pce_fqdn_name}}.{{pce_domain_name}}
-service_discovery_fqdn: {{service_discovery_server}}.{{pce_domain_name}}
+{% if hostvars[inventory_hostname]['ansible_default_ipv4']['address'] in groups['2x2MNC1'] %}
+pce_fqdn: {{pce_fqdn_name}}
+web_service_certificate: {{cert_dir}}/{{machine_cert}}
+web_service_private_key: {{cert_dir}}/{{machine_private_key}}
+{% for ip in hostvars[inventory_hostname]['groups']['2x2MNC1_core0] %}
+service_discovery_fqdn: {{ip}}
+{% endfor %}
+{% endif %}
 service_discovery_encryption_key: {{service_discovery_encryption_key}}
-email_address: noreply@{{prefix_name}}.{{pce_domain_name}}
-email_display_name: noreply@{{prefix_name}}
-smtp_relay_address: 127.0.0.1:25
+email_address: {{email_address}}
+email_display_name: {{email_display_name}}
+smtp_relay_address: {{smtp_relay_address}}
 expose_user_invitation_link: true
 syslog_event_export_format: json
 cluster_public_ips:
   cluster_fqdn:
-{% for ip in hostvars[inventory_hostname]['groups']['snc1'] %}
-{% if ip in hostvars[inventory_hostname]['groups'][prefix_name] %}
+{% if hostvars[inventory_hostname]['ansible_default_ipv4']['address'] in groups['2x2MNC1'] %}
+{% for ip in hostvars[inventory_hostname]['groups']['2x2MNC1_core0] %}
   - {{ip}}
-{% endif %}
 {% endfor %}
+{% for ip in hostvars[inventory_hostname]['groups']['2x2MNC1_core1] %}
+  - {{ip}}
+{% endfor %}
+{% endif %}
 export_flow_summaries_to_syslog:
   - accepted
   - potentially_blocked
   - blocked
+
+internal_service_ip: {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}
+
+{% if node_class == 'data0' %}
+traffic datastore: 
+  data_dir: {{data_dir}}
+  max_disk_usage_gb: {{max_disk_usage_gb}}
+  partition_fraction: {{partition_fraction}}
+{% endif %}
+
+{% if node_class == 'data1' %}
+traffic datastore: 
+  data_dir: {{data_dir}}
+  max_disk_usage_gb: {{max_disk_usage_gb}}
+  partition_fraction: {{partition_fraction}}
+{% endif %}
+
+exposer_user_invitation_link: true
