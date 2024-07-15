@@ -13,6 +13,7 @@
     "log_dir" : "/var/log/illumio-pce",
     "private_key_cache_dir" : "/var/lib/illumio-pce/keys",
     "cert_dir" : "/var/lib/illumio-pce/cert",
+    "trusted_ca_bundle" : "/etc/ssl/certs/ca-bundle.crt",
     "machine_cert" : "mnc-cert.pem",
     "machine_private_key" : "mnc-cert.key",
     "root_ca_cert" : "root-ca-mnc-cert.pem",

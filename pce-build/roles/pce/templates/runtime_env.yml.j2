@@ -7,7 +7,7 @@ log_dir: {{log_dir}}
 private_key_cache_dir: {{private_key_cache_dir}}
 node_type: {{node_class}}
 cluster_type: {{cluster_type}}
-trusted_ca_bundle: /etc/ssl/certs/ca-bundle.crt
+trusted_ca_bundle: {{trusted_ca_bundle}}
 front_end_https_port: {{ven_port}}
 front_end_management_https_port: {{mgmt_port}}
 front_end_event_service_port: {{ven_lightning_port}}
@@ -55,5 +55,3 @@ traffic datastore:
   max_disk_usage_gb: {{max_disk_usage_gb}}
   partition_fraction: {{partition_fraction}}
 {% endif %}
-
-exposer_user_invitation_link: true
