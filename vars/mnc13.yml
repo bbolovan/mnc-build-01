@@ -19,7 +19,7 @@
     "root_ca_cert" : "ca.bb.local.crt",
     "email_address" : "noreply@cbb.local",
     "email_display_name" : "Noreply CBB",
-    "smtp_relay_address" : smtp-relay.cbb.local:25,
+    "smtp_relay_address" : "smtp-relay.cbb.local:25",
     "service_discovery_encryption_key" : "+Y6mhXZZXa53ZeXXXXYZwg==",
     "pce_fqdn_name" : "ans-mnc01.cbb.local",
     "load_balancer_ip" : "192.168.1.1",
