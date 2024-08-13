@@ -58,7 +58,7 @@
 - name: "Running BUILD task "
   max_fail_percentage: 10
   become: true
-  hosts: pce
+  hosts: groups[prefix_name] 
   roles:
 
   - role: common
