@@ -35,57 +35,30 @@
   tasks:
 
 
+
+
+  - name: "Checking PCE cluster makeup for type definition"
+    run_once: true
+    set_fact:
+      node_count: "{{ groups['MNC1'] |length }}"
+
   - name: "Set cluster type 2x2 based on group membership counts"
     set_fact: 
       cluster_type: "4node_v0"
     run_once: true
+    when: node_count == '4'
 
-  # - name: "set fact variable - node type"
-  #   set_fact:   
-  #     node_type : "{{item}}"
-  #   when: "(item in ['snc0'])"
-  #   with_items: "{{hostvars[inventory_hostname]['group_names']}}"
-
-  # - name: "set fact variable - PCE name"
-  #   set_fact:
-  #     pce_name: "{{item}}"
-  #   when: "item in ['snc1']"
-  #   with_items: "{{hostvars[inventory_hostname]['group_names']}}"
-
-  # - name: "Set fact variable - node class 'snc0'"
-  #   set_fact:
-  #     node_class: "snc0"
-  #   when: (item in ["snc0"])
-  #   with_items: "{{hostvars[inventory_hostname]['group_names']}}"
-
-  # - name: "Checking PCE cluster makeup for type definition"
-  #   run_once: true
-  #   set_fact:
-  #     node_count: "{{ groups[prefix_name] |length }}"
-
-  # - name: "Set cluster type 2x2 based on group membership counts"
-  #   set_fact: 
-  #     cluster_type: "4node_v0"
-  #   run_once: true
-  #   when: node_count == '4'
-
-  # - name: "Set cluster type as 4x2 based on group membership counts"
-  #   set_fact:
-  #     cluster_type: "6node_v0"
-  #   run_once: true
-  #   when: node_count == '6'
-
-  # - name: "Set cluster type SNC based on group membership counts"
-  #   set_fact:
-  #     cluster_type: "snc0"
-  #   run_once: true
-  #   when: node_count == '1'
+  - name: "Set cluster type as 4x2 based on group membership counts"
+    set_fact:
+      cluster_type: "6node_v0"
+    run_once: true
+    when: node_count == '6'
 
 
-- name: "Running BUILD task on {{prefix_name}}"
+- name: "Running BUILD task on {{MNC1}}"
   max_fail_percentage: 10
   become: true
-  hosts: "{{prefix_name}}"
+  hosts: "{{MNC1}}"
   roles:
 
   - role: common
