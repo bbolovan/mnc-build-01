@@ -40,7 +40,7 @@
   - name: "Checking PCE cluster makeup for type definition"
     run_once: true
     set_fact:
-      node_count: "{{ groups['MNC1'] |length }}"
+      node_count: "{{ groups[prefix_name] |length }}"
 
   - name: "Set cluster type 2x2 based on group membership counts"
     set_fact: 
@@ -55,10 +55,10 @@
     when: node_count == '6'
 
 
-- name: "Running BUILD task on '{{MNC1}}'"
+- name: "Running BUILD task on {{}}"
   max_fail_percentage: 10
   become: true
-  hosts: "{{MNC1}}"
+  hosts: pce
   roles:
 
   - role: common
