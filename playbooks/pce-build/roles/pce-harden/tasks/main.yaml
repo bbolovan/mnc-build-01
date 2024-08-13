@@ -10,15 +10,16 @@
 
 
 - name: "Prevent firewalld from getting loaded"
-  block:
-    name: firewalld
-    state: stopped
-    enabled: false
+  service: 
+      name: firewalld
+      state: stopped
+      enabled: false
 
 - name: "Prevent iptables from getting loaded"
-    name: iptables
-    state: stopped
-    enabled: false
+  service: 
+      name: iptables
+      state: stopped
+      enabled: false
 
 
 
