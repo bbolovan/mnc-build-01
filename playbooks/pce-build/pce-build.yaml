@@ -55,7 +55,7 @@
     when: node_count == '6'
 
 
-- name: 'Running BUILD task on "{{MNC1}}"'
+- name: "Running BUILD task on '{{MNC1}}'"
   max_fail_percentage: 10
   become: true
   hosts: "{{MNC1}}"
