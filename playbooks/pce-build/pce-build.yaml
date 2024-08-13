@@ -36,26 +36,26 @@
 
 - name: "Include files matching mnc13.yml"
   include_vars:
-  dir: vars
-  files_matching: mnc13.yml
+    dir: vars
+    files_matching: mnc13.yml
 
 
-  - name: "Checking PCE cluster makeup for type definition"
-    run_once: true
-    set_fact:
+- name: "Checking PCE cluster makeup for type definition"
+  run_once: true
+  set_fact:
       node_count: "{{ groups[prefix_name] |length }}"
 
-  - name: "Set cluster type 2x2 based on group membership counts"
-    set_fact: 
+- name: "Set cluster type 2x2 based on group membership counts"
+  set_fact: 
       cluster_type: "4node_v0"
-    run_once: true
-    when: node_count == '4'
+  run_once: true
+  when: node_count == '4'
 
-  - name: "Set cluster type as 4x2 based on group membership counts"
-    set_fact:
+- name: "Set cluster type as 4x2 based on group membership counts"
+  set_fact:
       cluster_type: "6node_v0"
-    run_once: true
-    when: node_count == '6'
+  run_once: true
+  when: node_count == '6'
 
 
 - name: "Running BUILD task "
