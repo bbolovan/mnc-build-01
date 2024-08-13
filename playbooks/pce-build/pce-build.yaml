@@ -34,7 +34,10 @@
   become: true
   tasks:
 
-
+- name: "Include files matching mnc13.yml"
+  include_vars:
+  dir: vars
+  files_matching: mnc13.yml
 
 
   - name: "Checking PCE cluster makeup for type definition"
