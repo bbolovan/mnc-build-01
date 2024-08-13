@@ -16,7 +16,6 @@
     enabled: false
 
 - name: "Prevent iptables from getting loaded"
-  block:
     name: iptables
     state: stopped
     enabled: false
