@@ -71,7 +71,7 @@
 - name: Stop nftables service
   service:
     name: nftables
-      state: stopped
+    state: stopped
 
 
 - name: "Configure Alias File"
