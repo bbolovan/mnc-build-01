@@ -17,7 +17,7 @@
   # rescue:
   #   - name: debug output
   #     commnad: systemctl status firewalld
-       ignore_errors: True
+    ignore_errors: True
 
 - name: "Prevent iptables from getting loaded"
   block:
@@ -27,7 +27,7 @@
   # rescue:
   #   - name: debug output
   #     commnad: systemctl status iptables
-       ignore_errors: True
+    ignore_errors: True
 
 
 
