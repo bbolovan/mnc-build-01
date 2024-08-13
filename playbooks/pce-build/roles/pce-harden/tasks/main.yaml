@@ -15,9 +15,9 @@
     state: stopped
     enabled: false
   rescue:
-- name: debug output
-  commnad: systemctl status firewalld
-  ignore_errors: True
+    - name: debug output
+      commnad: systemctl status firewalld
+      ignore_errors: True
 
 - name: "Prevent iptables from getting loaded"
   block:
