@@ -15,7 +15,7 @@
   command: illumio-pce-ctl stop
   become: true
   become_user: ilo-pce
-  when: "pce_status.rc != 3"
+  when: "pce_status.rc != 3 and pce_status.rc != 2  "
 
 
 - name: "Waiting for PCE to stop"
@@ -25,7 +25,7 @@
   register: pce_status
   until: pce_status.rc == 0
   retries: 0
-  when: " pce_status.rc != 3"
+  when: " pce_status.rc != 3 and pce_status.rc != 2 "
   args:
     chdir: /tmp/
 
