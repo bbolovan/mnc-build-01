@@ -2,6 +2,7 @@
 - name:  Uninstall VEN
   command: "/opt/illumio_ven/illumio-ven-ctl unpair open"
   register: ven_unpair_out
+  become: True
   ignore_errors: True
 
 
