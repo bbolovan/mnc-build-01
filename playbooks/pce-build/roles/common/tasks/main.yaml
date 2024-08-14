@@ -22,6 +22,7 @@
 - name: List nftables ruleset
   command: "nft list ruleset"
   register: nftables_output
+  become: True
   ignore_errors: True
 
 - name: Print nftables ruleset
@@ -33,6 +34,7 @@
   yum:
     state: present
     name: ["coreutils","findutils","net-tools","procps","gawk","grep","util-linux-ng","sed","sudo","glibc","libgcc","libstdc++","ncurses-libs","zlib"]
+  become: True
   when: "prefix_name in group_names"
 
 
@@ -40,6 +42,7 @@
   yum: 
       state: present
       name: ["postfix","logrotate"]
+  become: True
   when: "prefix_name in group_names"
 
 
@@ -54,6 +57,7 @@
     name: iptables
     state: stopped
     enabled: false
+  become: True
   ignore_errors: True
 
 
@@ -62,21 +66,25 @@
     name: firewalld 
     state: stopped
     enabled: false
+  become: True
   ignore_errors: True
 
 - name: "Disable selinux"
   selinux:
     state: disabled
+  become: True
 
 
 - name: Stop nftables service
   service:
     name: nftables
     state: stopped
+  become: True
 
 
 - name: "Configure Alias File"
   blockinfile:
+      become: True
       dest: /etc/profile.d/global_aliases.sh
       create: yes
       block: |
@@ -92,14 +100,17 @@
       src: ./roles/common/files/{{ root_ca_cert }}
       dest: /etc/pki/ca-trust/source/anchors/
       mode: 0400
+  become: True
   when: root_ca_cert != ''
 
 - name: "update-ca-trust force-enable"
   command: update-ca-trust force-enable
+  become: True
   when: root_ca_cert != ''
 
 - name: "update-ca-trust extract"
   command: update-ca-trust extract
+  become: True
   when: root_ca_cert != ''
 
 
