@@ -1,11 +1,4 @@
 ---
-- name: "Setting preparatory facts"
-  max_fail_percentage: 10
-  hosts: pce
-  become: true
-  tasks:
-    # Your preparatory tasks here
-
 - name: "Check PCE cluster makeup and define type"
   hosts: localhost
   gather_facts: false
@@ -33,10 +26,15 @@
       run_once: true
       when: node_count == 6
 
+    - name: "Make prefix_name global"
+      set_fact:
+        global_prefix_name: "{{ prefix_name }}"
+      run_once: true
+
 - name: "Running BUILD task"
   max_fail_percentage: 10
   become: true
-  hosts: "{{ groups[prefix_name] }}" 
+  hosts: "{{ groups[global_prefix_name] }}" 
   roles:
     - role: common
     - role: pce-harden
