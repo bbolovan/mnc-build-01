@@ -50,9 +50,14 @@
 #     - role: pce-uninstall
     # - role: pce-unharden
 
-
+- name: "Setup and Configure PCE"
+  hosts: localhost
+  gather_facts: False
+  become: true
+  remote_user: root
   vars:
     prefix_name: "MNC1"  # Set the appropriate group name here
+
   tasks:
     - name: "Checking PCE cluster makeup for type definition"
       run_once: true
@@ -64,7 +69,7 @@
         msg: "The node count is {{ node_count }}"
 
     - name: "Set cluster type 2x2 based on group membership counts"
-      set_fact: 
+      set_fact:
         cluster_type: "4node_v0"
       run_once: true
       when: node_count == 4
@@ -75,15 +80,14 @@
       run_once: true
       when: node_count == 6
 
-    - name: "Running DESTROY task"
-      max_fail_percentage: 10
-      become: true
-      remote_user: root
-      hosts: "{{ groups[prefix_name] }}" 
-      vars:
-      prefix_name: "MNC1"  # Pass the variable again
-    
-    
+- name: "Running DESTROY task"
+  hosts: "{{ groups[prefix_name] }}"
+  gather_facts: False
+  become: true
+  remote_user: root
+  vars:
+    prefix_name: "MNC1"  # Pass the variable again
+
   roles:
     - role: pce-uninstall
     - role: pce-unharden
