@@ -51,7 +51,7 @@
     # - role: pce-unharden
 
 
-vars:
+  vars:
     prefix_name: "MNC1"  # Set the appropriate group name here
   tasks:
     - name: "Checking PCE cluster makeup for type definition"
@@ -83,7 +83,5 @@ vars:
   vars:
     prefix_name: "MNC1"  # Pass the variable again
     roles:
-    - role: common
-    - role: pce-harden
-    - role: pce
-    - role: pce-prepare
+    - role: pce-uninstall
+    - role: pce-unharden
