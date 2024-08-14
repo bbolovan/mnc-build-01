@@ -87,7 +87,7 @@
   hosts: "{{ groups[prefix_name] }}" 
   vars:
     prefix_name: "MNC1"  # Pass the variable again
-    cluster_type: {{cluster_type}}
+    cluster_type: "{{cluster_type}}"
   roles:
     - role: common
     - role: pce-harden
