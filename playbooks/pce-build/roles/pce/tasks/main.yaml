@@ -145,7 +145,10 @@
       mode: 0440
   when: "prefix_name in group_names"
 
-
+- name: "Check node_class value"
+  debug:
+    var: node_class
+    
 - name: "Copy runtime_env.yml template to PCE"
   template:
       src: runtime_env.yml.j2
