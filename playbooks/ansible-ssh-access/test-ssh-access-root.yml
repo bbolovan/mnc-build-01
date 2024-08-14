@@ -1,0 +1,8 @@
+---
+- name: Test SSH Connection as Root
+  hosts: all
+  become: true
+  tasks:
+    - name: Print a message
+      debug:
+        msg: "Successfully connected as root!"
