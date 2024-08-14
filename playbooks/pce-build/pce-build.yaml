@@ -14,13 +14,34 @@
       debug:
         msg: "The node count is {{ node_count }}"
 
-    - name: "Set cluster type 2x2 based on group membership counts"
-      set_fact: 
+    # - name: "Set cluster type 2x2 based on group membership counts"
+    #   set_fact: 
+    #     cluster_type: "4node_v0"
+    #   run_once: true
+    #   when: node_count == 4
+
+    # - name: "Set cluster type as 4x2 based on group membership counts"
+    #   set_fact:
+    #     cluster_type: "6node_v0"
+    #   run_once: true
+    #   when: node_count == 6
+
+
+- name: "Set cluster type as 2x2 based on group membership counts"
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Set cluster_type fact
+      set_fact:
         cluster_type: "4node_v0"
       run_once: true
       when: node_count == 4
 
-    - name: "Set cluster type as 4x2 based on group membership counts"
+- name: "Set cluster type as 4x2 based on group membership counts"
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Set cluster_type fact
       set_fact:
         cluster_type: "6node_v0"
       run_once: true
@@ -66,6 +87,7 @@
   hosts: "{{ groups[prefix_name] }}" 
   vars:
     prefix_name: "MNC1"  # Pass the variable again
+    cluster_type: {{cluster_type}}
   roles:
     - role: common
     - role: pce-harden
