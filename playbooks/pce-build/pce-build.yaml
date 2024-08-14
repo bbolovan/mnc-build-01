@@ -39,7 +39,7 @@
 #     dir: vars
 #     files_matching: mnc13.yml
 
- name: "Check PCE cluster makeup and define type"
+- name: "Check PCE cluster makeup and define type"
   hosts: localhost
   gather_facts: false
   tasks:
