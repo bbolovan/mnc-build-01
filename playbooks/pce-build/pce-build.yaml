@@ -35,7 +35,7 @@
       set_fact:
         cluster_type: "4node_v0"
       run_once: true
-      when: node_count == 4
+      when: {{node_count}} == 4
 
 - name: "Set cluster type as 4x2 based on group membership counts"
   hosts: all
@@ -45,7 +45,7 @@
       set_fact:
         cluster_type: "6node_v0"
       run_once: true
-      when: node_count == 6
+      when: {{node_count}} == 6
 
 
 - name: "Set node_type fact for each host"
