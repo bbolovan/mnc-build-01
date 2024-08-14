@@ -43,6 +43,7 @@
   hosts: "{{prefix_name}}"
   gather_facts: False
   become: true
+  remote_user: root
 
   roles:
     - role: pce-uninstall
