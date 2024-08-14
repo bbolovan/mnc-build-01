@@ -1,7 +1,7 @@
 {
     "pce_rpm_upgrade" : "illumio-pce-22.5.33.c8.x86_64.rpm",
     "pce_ui_rpm_upgrade" : "illumio-pce-22.5.33.UI1-1.x86_64.rpm",   
-    "pce_rpm_software" : "illumio-pce-22.5.32.c8.x86_64.rpm",
+    "pce_rpm_software" : "illumio-pce-22.5.32-12.c7.x86_64.rpm",
     "pce_ui_rpm_software" : "illumio-pce-22.5.32.UI1-1.x86_64.rpm",
     "install_root" : "/opt/illumio-pce",
     "runtime_data_dir" : "/var/lib/illumio-pce/runtime",
