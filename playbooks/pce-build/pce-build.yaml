@@ -26,15 +26,12 @@
       run_once: true
       when: node_count == 6
 
-    - name: "Make prefix_name global"
-      set_fact:
-        global_prefix_name: "{{ prefix_name }}"
-      run_once: true
-
 - name: "Running BUILD task"
   max_fail_percentage: 10
   become: true
-  hosts: "{{ groups[global_prefix_name] }}" 
+  hosts: "{{ groups[prefix_name] }}" 
+  vars:
+    prefix_name: "MNC1"  # Pass the variable again
   roles:
     - role: common
     - role: pce-harden
