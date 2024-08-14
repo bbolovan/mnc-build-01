@@ -1,42 +1,47 @@
 # PCE runtime_env.yml parameters
-install_root: {{install_root}}
-runtime_data_root: {{runtime_data_dir}}
-persistent_data_root: {{persistent_data_dir}}
-ephemeral_data_root: {{ephemeral_data_dir}}
-log_dir: {{log_dir}}
-private_key_cache_dir: {{private_key_cache_dir}}
-node_type: {{node_class}}
-cluster_type: {{cluster_type}}
-trusted_ca_bundle: {{trusted_ca_bundle}}
-front_end_https_port: {{ven_port}}
-front_end_management_https_port: {{mgmt_port}}
-front_end_event_service_port: {{ven_lightning_port}}
+install_root: {{ install_root }}
+runtime_data_root: {{ runtime_data_dir }}
+persistent_data_root: {{ persistent_data_dir }}
+ephemeral_data_root: {{ ephemeral_data_dir }}
+log_dir: {{ log_dir }}
+private_key_cache_dir: {{ private_key_cache_dir }}
+node_type: {{ node_class }}
+cluster_type: {{ cluster_type }}
+trusted_ca_bundle: {{ trusted_ca_bundle }}
+front_end_https_port: {{ ven_port }}
+front_end_management_https_port: {{ mgmt_port }}
+front_end_event_service_port: {{ ven_lightning_port }}
+
 {% if hostvars[inventory_hostname]['ansible_default_ipv4']['address'] in groups['MNC1'] %}
-pce_fqdn: {{pce_fqdn_name}}
-web_service_certificate: {{cert_dir}}/{{machine_cert}}
-web_service_private_key: {{cert_dir}}/{{machine_private_key}}
-{% for ip in hostvars[inventory_hostname]['groups']['core0] %}
-service_discovery_fqdn: {{ip}}
+pce_fqdn: {{ pce_fqdn_name }}
+web_service_certificate: {{ cert_dir }}/{{ machine_cert }}
+web_service_private_key: {{ cert_dir }}/{{ machine_private_key }}
+
+{% for ip in groups['core0'] %}
+service_discovery_fqdn: {{ ip }}
 {% endfor %}
+
 {% endif %}
-service_discovery_encryption_key: {{service_discovery_encryption_key}}
-email_address: {{email_address}}
-email_display_name: {{email_display_name}}
-smtp_relay_address: {{smtp_relay_address}}
+
+service_discovery_encryption_key: {{ service_discovery_encryption_key }}
+email_address: {{ email_address }}
+email_display_name: {{ email_display_name }}
+smtp_relay_address: {{ smtp_relay_address }}
 expose_user_invitation_link: true
 syslog_event_export_format: json
+
 cluster_public_ips:
   cluster_fqdn:
 {% if hostvars[inventory_hostname]['ansible_default_ipv4']['address'] in groups['MNC1'] %}
-{% for ip in hostvars[inventory_hostname]['groups']['core0] %}
-  - {{ip}}
-{% endfor %}
-{% for ip in hostvars[inventory_hostname]['groups']['core1] %}
-  - {{ip}}
-{% endfor %}
+  {% for ip in groups['core0'] %}
+  - {{ ip }}
+  {% endfor %}
+  {% for ip in groups['core1'] %}
+  - {{ ip }}
+  {% endfor %}
 {% endif %}
 {% if load_balancer_ip %}
-  - {{load_balancer_ip}}
+  - {{ load_balancer_ip }}
 {% endif %}
 
 export_flow_summaries_to_syslog:
@@ -47,15 +52,15 @@ export_flow_summaries_to_syslog:
 internal_service_ip: {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}
 
 {% if node_class == 'data0' %}
-traffic datastore: 
-  data_dir: {{data_dir}}
-  max_disk_usage_gb: {{max_disk_usage_gb}}
-  partition_fraction: {{partition_fraction}}
+traffic_datastore: 
+  data_dir: {{ data_dir }}
+  max_disk_usage_gb: {{ max_disk_usage_gb }}
+  partition_fraction: {{ partition_fraction }}
 {% endif %}
 
 {% if node_class == 'data1' %}
-traffic datastore: 
-  data_dir: {{data_dir}}
-  max_disk_usage_gb: {{max_disk_usage_gb}}
-  partition_fraction: {{partition_fraction}}
+traffic_datastore: 
+  data_dir: {{ data_dir }}
+  max_disk_usage_gb: {{ max_disk_usage_gb }}
+  partition_fraction: {{ partition_fraction }}
 {% endif %}
