@@ -30,12 +30,13 @@
 #########################################################################################
 - hosts: pce
   become: true
+  remote_user: root
   tasks:
 
   - name: set fact variable
     set_fact:
       node_type : "{{item}}"
-    when: (item in ["snc0","core0","core1","core2","core3","data0","data1"])
+    when: (item in ["core0","core1","core2","core3","data0","data1"])
     with_items: "{{hostvars[inventory_hostname]['group_names']}}"
 
 - name: "Running DESTROY tasks on {{prefix_name}}"
