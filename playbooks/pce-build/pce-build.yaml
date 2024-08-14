@@ -29,6 +29,7 @@
 - name: "Running BUILD task"
   max_fail_percentage: 10
   become: true
+  remote_user: root
   hosts: "{{ groups[prefix_name] }}" 
   vars:
     prefix_name: "MNC1"  # Pass the variable again
