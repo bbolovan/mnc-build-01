@@ -31,11 +31,12 @@
 
 
 - name: "Uninstall the UI RPM"
-  #command: rpm -e illumio-pce-ui
   yum:
     name: illumio-pce-ui
     state: absent
-    when: "prefix_name in group_names and 'corenodes' in group_names"
+  when: 
+    - prefix_name in group_names
+    - 'corenodes' in group_names
 
 
 - name: "Uninstall the PCE RPM"
