@@ -84,16 +84,16 @@
   become: True
 
 
-- name: "Configure Alias File"
-  blockinfile:
-      become: True
-      dest: /etc/profile.d/global_aliases.sh
-      create: yes
-      block: |
-        # Illumio-specific aliases and functions
-        alias check="sudo -u ilo-pce /opt/illumio-pce/illumio-pce-env check"
-        alias ctl="sudo -u ilo-pce /opt/illumio-pce/illumio-pce-ctl"
-        alias db="sudo -u ilo-pce /opt/illumio-pce/illumio-pce-db-management"
+# - name: "Configure Alias File"
+#   blockinfile:
+#       become: True
+#       dest: /etc/profile.d/global_aliases.sh
+#       create: yes
+#       block: |
+#         # Illumio-specific aliases and functions
+#         alias check="sudo -u ilo-pce /opt/illumio-pce/illumio-pce-env check"
+#         alias ctl="sudo -u ilo-pce /opt/illumio-pce/illumio-pce-ctl"
+#         alias db="sudo -u ilo-pce /opt/illumio-pce/illumio-pce-db-management"
  
 
 
