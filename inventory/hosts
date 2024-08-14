@@ -8,15 +8,15 @@ all:
               children:
                 core0:
                   hosts:
-                    172.22.91.81:
+                    172.22.91.93:
                 core1:
                   hosts:
-                    172.22.91.97:
+                    172.22.91.94:
             datanodes:
               children:
                 data0:
                   hosts:
-                    172.22.91.98:
+                    172.22.91.95:
                 data1:
                   hosts:
-                    172.22.91.99:
+                    172.22.91.96:

@@ -1,0 +1,17 @@
+---
+- name: Distribute SSH key for root user
+  hosts: all
+  become: yes
+  tasks:
+    - name: Ensure root has SSH directory
+      file:
+        path: /root/.ssh
+        state: directory
+        mode: '0700'
+
+    - name: Copy SSH public key to the root's authorized_keys
+      copy:
+        src: /home/ansible/.ssh/id_rsa.pub
+        dest: /root/.ssh/authorized_keys
+        owner: root
+        mode: '0600'

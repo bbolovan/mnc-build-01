@@ -3,5 +3,7 @@
 #ansible-playbook -u ansible --extra-vars "@./mnc13.yml.19.3.1" ./pce-build/pce-destroy.yaml
 ansible-playbook -u ansible --extra-vars "@./snc1.yml" ./pce-build/pce-build.yaml
 #ansible-playbook -u ansible --extra-vars "@./snc1.yml" ./pce-build/pce-upgrade.yaml
-ansible-playbook -u ansible --extra-vars "@./snc1.yml" ./pce-build/pce-destroy.yaml
+#ansible-playbook -u ansible --extra-vars "@./snc1.yml" ./pce-build/pce-destroy.yaml
+ansible-playbook -u root -I "@./inventory/hosts" ./playbooks/ansible-ssh-access/ansible-ssh-access-to-hosts.yml --ask-pass
+#
 
