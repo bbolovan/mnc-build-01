@@ -50,3 +50,48 @@ all:
           hosts:
             172.22.91.99: {}
     ungrouped: {}
+
+
+
+
+ all:
+   hosts:
+   children:
+     pce:
+       children:
+          MNC1:
+            hosts:
+             core0:
+               hosts:
+                 172.22.91.81:
+             core1:
+               hosts:
+                 172.22.91.97
+         datanodes:
+           children:
+             data0:
+               hosts:
+                 172.22.91.98:
+             data1:
+               hosts:
+                 172.22.91.99:
+
+[pce:children]
+MNC1
+[MNC1:children]
+corenodes
+datanodes
+[corenodes:children]
+core0
+core1
+[datanodes:children]
+data0
+data1
+[core0]
+172.22.91.81
+[core1]
+172.22.91.97
+[data0]
+172.22.91.98
+[data1]
+172.22.91.99
