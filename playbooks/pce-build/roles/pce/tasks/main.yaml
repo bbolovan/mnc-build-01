@@ -148,7 +148,11 @@
 - name: "Check node_class value"
   debug:
     var: node_class
-    
+
+- name: "Check cluster_type value"
+  debug:
+    var: cluster_type
+
 - name: "Copy runtime_env.yml template to PCE"
   template:
       src: runtime_env.yml.j2
