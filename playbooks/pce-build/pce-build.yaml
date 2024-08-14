@@ -42,6 +42,8 @@
 - name: "Check PCE cluster makeup and define type"
   hosts: localhost
   gather_facts: false
+  vars:
+    prefix_name: "MNC1"  # Set the appropriate group name here
   tasks:
     - name: "Checking PCE cluster makeup for type definition"
       run_once: true
