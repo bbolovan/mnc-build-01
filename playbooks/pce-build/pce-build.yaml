@@ -27,12 +27,15 @@
       when: node_count == 6
 
 
-- name: Set node_type fact
-  set_fact:
-    node_type: "{{ item }}"
-  with_items: "{{ hostvars[inventory_hostname]['group_names'] }}"
-  when: (item in ['core0', 'core1', 'core2', 'core3', 'data0', 'data1'])
-
+- name: "Set node_type fact for each host"
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Set node_type fact
+      set_fact:
+        node_type: "{{ item }}"
+      with_items: "{{ hostvars[inventory_hostname]['group_names'] }}"
+      when: item in ['core0', 'core1', 'core2', 'core3', 'data0', 'data1']
 
 
 - name: "Running BUILD task"
