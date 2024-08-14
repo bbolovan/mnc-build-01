@@ -110,7 +110,7 @@
   shell: rpm -Uvh /tmp/{{pce_ui_rpm_software}}
   args:
     warn: false
-
+  when: "prefix_name in group_names and node_type in ['core0', 'core1', 'core2', 'core3']"
 
 - name: "Clean up RPM package"
   file:
