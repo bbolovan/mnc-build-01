@@ -36,7 +36,7 @@
     state: absent
   when: 
     - prefix_name in group_names
-    - 'corenodes' in group_names
+     - 'corenodes' in group_names
 
 
 - name: "Uninstall the PCE RPM"
