@@ -1,30 +1,52 @@
-[MNC1_core0]
-172.22.91.81
-[MNC1_core1]
-172.22.91.97
-[MNC1_data0]
-172.22.91.98
-[MNC1_data1]
-172.22.91.99
-
-[corenodes:children]
-MNC1_core0
-MNC1_core1
-[datanodes:children]
-MNC1_data0
-MNC1_data1
-[core0:children]
-MNC1_core0
-[data0:children]
-MNC1_data0
-[data1:children]
-MNC1_data1
-
-[MNC1:children]
-MNC1_core0
-MNC1_core1
-MNC1_data0
-MNC1_data1
-
-[all:vars]
-ansible_remote_tmp=/var/tmp/
+all:
+  children:
+    MNC1:
+      children:
+        MNC1_core0:
+          hosts:
+            172.22.91.81:
+              ansible_remote_tmp: /var/tmp/
+        MNC1_core1:
+          hosts:
+            172.22.91.97:
+              ansible_remote_tmp: /var/tmp/
+        MNC1_data0:
+          hosts:
+            172.22.91.98:
+              ansible_remote_tmp: /var/tmp/
+        MNC1_data1:
+          hosts:
+            172.22.91.99:
+              ansible_remote_tmp: /var/tmp/
+    core0:
+      children:
+        MNC1_core0:
+          hosts:
+            172.22.91.81: {}
+    corenodes:
+      children:
+        MNC1_core0:
+          hosts:
+            172.22.91.81: {}
+        MNC1_core1:
+          hosts:
+            172.22.91.97: {}
+    data0:
+      children:
+        MNC1_data0:
+          hosts:
+            172.22.91.98: {}
+    data1:
+      children:
+        MNC1_data1:
+          hosts:
+            172.22.91.99: {}
+    datanodes:
+      children:
+        MNC1_data0:
+          hosts:
+            172.22.91.98: {}
+        MNC1_data1:
+          hosts:
+            172.22.91.99: {}
+    ungrouped: {}
