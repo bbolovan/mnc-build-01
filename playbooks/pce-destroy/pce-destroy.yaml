@@ -28,9 +28,9 @@
 # output=json
 #
 #########################################################################################
-- hosts: pce
-  become: true
-  remote_user: root
+# - hosts: pce
+#   become: true
+#   remote_user: root
 #   tasks:
 
 #   - name: set fact variable
@@ -75,13 +75,15 @@
       run_once: true
       when: node_count == 6
 
-- name: "Running BUILD task"
+- name: "Running DESTROY task"
   max_fail_percentage: 10
   become: true
   remote_user: root
   hosts: "{{ groups[prefix_name] }}" 
   vars:
     prefix_name: "MNC1"  # Pass the variable again
-    roles:
+    
+    
+roles:
     - role: pce-uninstall
     - role: pce-unharden
