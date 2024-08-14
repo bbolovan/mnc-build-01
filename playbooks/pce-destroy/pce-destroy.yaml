@@ -31,22 +31,59 @@
 - hosts: pce
   become: true
   remote_user: root
+#   tasks:
+
+#   - name: set fact variable
+#     set_fact:
+#       node_type : "{{item}}"
+#     when: (item in ["core0","core1","core2","core3","data0","data1"])
+#     with_items: "{{hostvars[inventory_hostname]['group_names']}}"
+
+# - name: "Running DESTROY tasks on {{prefix_name}}"
+
+#   hosts: "{{prefix_name}}"
+#   gather_facts: False
+#   become: true
+#   remote_user: root
+
+#   roles:
+#     - role: pce-uninstall
+    # - role: pce-unharden
+
+
+vars:
+    prefix_name: "MNC1"  # Set the appropriate group name here
   tasks:
+    - name: "Checking PCE cluster makeup for type definition"
+      run_once: true
+      set_fact:
+        node_count: "{{ groups[prefix_name] | length }}"
 
-  - name: set fact variable
-    set_fact:
-      node_type : "{{item}}"
-    when: (item in ["core0","core1","core2","core3","data0","data1"])
-    with_items: "{{hostvars[inventory_hostname]['group_names']}}"
+    - name: "Print node count"
+      debug:
+        msg: "The node count is {{ node_count }}"
 
-- name: "Running DESTROY tasks on {{prefix_name}}"
+    - name: "Set cluster type 2x2 based on group membership counts"
+      set_fact: 
+        cluster_type: "4node_v0"
+      run_once: true
+      when: node_count == 4
 
-  hosts: "{{prefix_name}}"
-  gather_facts: False
+    - name: "Set cluster type as 4x2 based on group membership counts"
+      set_fact:
+        cluster_type: "6node_v0"
+      run_once: true
+      when: node_count == 6
+
+- name: "Running BUILD task"
+  max_fail_percentage: 10
   become: true
   remote_user: root
-
-  roles:
-    - role: pce-uninstall
-    - role: pce-unharden
-
+  hosts: "{{ groups[prefix_name] }}" 
+  vars:
+    prefix_name: "MNC1"  # Pass the variable again
+    roles:
+    - role: common
+    - role: pce-harden
+    - role: pce
+    - role: pce-prepare
