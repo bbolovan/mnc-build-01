@@ -9,48 +9,6 @@
   when: "prefix_name in group_names"
 
 
-- name: "Prevent firewalld from getting loaded"
-  service: 
-      name: firewalld
-      state: stopped
-      enabled: false
-
-- name: "Prevent iptables from getting loaded"
-  service: 
-      name: iptables
-      state: stopped
-      enabled: false
-
-
-
-# - name: "Create the working directory"
-#   file:
-#     path: /var/tmp/illumio-pipgen
-#     state: directory
-
-
-
-# - name: "Copy illumio-pipgen to the PCE nodes"
-#   copy:
-#     src: ilo-pipgen
-#     dest: /var/tmp/illumio-pipgen/
-#     mode: 0755
-
-
-
-# - name: "Create pipgen IP file"
-#   template: 
-#     src: ip_addr_input.txt
-#     dest: /var/tmp/illumio-pipgen/
-
-
-
-# - name: "Run pipgen"
-#   shell: "./ilo-pipgen -i ip_addr_input.txt -o iptables -p {{ven_port}},{{ven_lightning_port}},{{mgmt_port}}"
-#   args:
-#     chdir: /var/tmp/illumio-pipgen/
-
-
 
 - name: "Enable conntrack in modprobe"
   modprobe:
