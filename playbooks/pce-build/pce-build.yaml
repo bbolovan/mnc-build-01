@@ -38,6 +38,27 @@
       when: item in ['core0', 'core1', 'core2', 'core3', 'data0', 'data1']
 
 
+- name: "Set fact variable - node class - core"
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: Set node_class fact
+    set_fact:
+      node_class: "core"
+    when: (item in ["core0","core1","core2","core3"])
+    with_items: "{{hostvars[inventory_hostname]['group_names']}}"
+
+ 
+- name: "Set fact variable - node class - data"
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: Set node_class fact
+    set_fact:
+      node_class: "{{item}}"
+    when: (item in ["data0","data1"])
+    with_items: "{{hostvars[inventory_hostname]['group_names']}}"
+
 - name: "Running BUILD task"
   max_fail_percentage: 10
   become: true
