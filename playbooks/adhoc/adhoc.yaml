@@ -7,7 +7,6 @@
       become: true
       become_user: ilo-pce
       register: result
-      when: "prefix_name in group_names and node_type in ['core0']"
 
     - name: Display command output
       debug:
