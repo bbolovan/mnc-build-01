@@ -161,6 +161,17 @@
       group: ilo-pce    
   when: "prefix_name in group_names"
 
+  - name: Create data_dir
+  hosts: all
+  tasks:
+    - name: Create directory with specific user and group
+      file:
+        path: "{{ data_dir }}"
+        state: directory
+        owner: ilo-pce
+        group: ilo-pce
+        mode: '0755'
+
 
 - name: "Running illumio-pce-env check before starting cluster"
   command: illumio-pce-env check
