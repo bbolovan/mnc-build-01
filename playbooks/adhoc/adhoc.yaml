@@ -8,9 +8,9 @@
       become_user: ilo-pce
       register: result
 
-    - name: Display command output
-      debug:
-        msg: "{{ result.stdout }}"
+    # - name: Display command output
+    #   debug:
+    #     msg: "{{ result.stdout }}"
 
     - name: Display return code
       debug:
