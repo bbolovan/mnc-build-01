@@ -1,18 +1,18 @@
+---
 - name: Run a command and collect output and return code
   hosts: all
   tasks:
     - name: "Waiting for Cluster Status to reach run-level 5"
-  command: illumio-pce-ctl cluster-status
-  become: true
-  become_user: ilo-pce
-  register: result
-  # until: cluster_status2.rc == 1
-  when: "prefix_name in group_names and node_type in ['core0']"
+      command: illumio-pce-ctl cluster-status
+      become: true
+      become_user: ilo-pce
+      register: result
+      when: "prefix_name in group_names and node_type in ['core0']"
 
-- name: Display command output
-  debug:
+    - name: Display command output
+      debug:
         msg: "{{ result.stdout }}"
 
-- name: Display return code
-  debug:
+    - name: Display return code
+      debug:
         msg: "Return code: {{ result.rc }}"
