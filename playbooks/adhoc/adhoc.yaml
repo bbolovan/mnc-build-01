@@ -9,7 +9,7 @@
       register: result
       until: result.rc == 0
       failed_when: "'Cluster status: RUNNING' not in result.stdout or 'runlevel: 5' not in result.stdout"
-      retries: 3                   # Number of retries
+      retries: 12                   # Number of retries
       delay: 10                     # Delay between retries in seconds
     - name: Display command output
       debug:
