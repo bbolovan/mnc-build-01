@@ -33,10 +33,7 @@ syslog_event_export_format: json
 cluster_public_ips:
   cluster_fqdn:
 {% if hostvars[inventory_hostname]['ansible_default_ipv4']['address'] in groups['MNC1'] %}
-  {% for ip in groups['core0'] %}
-  - {{ ip }}
-  {% endfor %}
-  {% for ip in groups['core1'] %}
+  {% for ip in groups['core0', 'core1'] %}
   - {{ ip }}
   {% endfor %}
 {% endif %}
