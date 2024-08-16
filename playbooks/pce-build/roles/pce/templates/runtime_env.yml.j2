@@ -52,7 +52,7 @@ export_flow_summaries_to_syslog:
 internal_service_ip: {{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}
 
 {% if node_class == 'data0' %}
-traffic_datastore: 
+traffic_datastore:
   data_dir: {{ data_dir }}
   max_disk_usage_gb: {{ max_disk_usage_gb }}
   partition_fraction: {{ partition_fraction }}
