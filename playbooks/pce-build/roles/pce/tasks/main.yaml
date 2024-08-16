@@ -238,19 +238,21 @@
   args:
     chdir: /tmp
 
-
+# Run on all nodes
 - name: "Wait for the PCE to start to runlevel 1"
-  command: illumio-pce-ctl cluster-status -x
+  command: illumio-pce-ctl cluster-status -w 120 -x
   become: true
   become_user: ilo-pce
   register: cluster_status
   failed_when: "'status: RUNNING' not in cluster_status.stdout or 'Reachable: 4 of 4' not in cluster_status.stdout"
-  retries: 0
+  until: cluster_status.rc == 0
+  retries: 5                  # Number of retries
+  delay: 10                     # Delay between retries in seconds
   when: "prefix_name in group_names "
   args:
     chdir: /tmp/
 
-
+ # Run on core0
 - name: "Setting up DB with illumio-pce-db-management"
   command: illumio-pce-db-management setup
   become: true
@@ -263,7 +265,7 @@
   args:
     chdir: /tmp/
 
-
+ # Run on core0
 - name: "Promoting the PCE to run-level 5"
   command: illumio-pce-ctl set-runlevel 5
   become: true
@@ -275,28 +277,30 @@
   args:
     chdir: /tmp/
 
-
+ # Run on all nodes
 - name: "Waiting for PCE to reach run-level 5 - 600 seconds"
-  command: illumio-pce-ctl status -w 600
+  command: illumio-pce-ctl status -w 200
   become: true
   become_user: ilo-pce
   register: pce_status4
   until: pce_status.rc == 1
   failed_when: "'RUNNING' not in pce_status4.stdout"
-  retries: 0
+  retries: 3                   # Number of retries
+  delay: 10                     # Delay between retries in seconds
   when: "prefix_name in group_names"
   args:
     chdir: /tmp/
 
-
-- name: "Waiting for Cluster Status to reach run-level 5"
-  command: illumio-pce-ctl cluster-status
+ # Run on core0
+- name: "Waiting for Cluster Status to reach run-level 5 ( 10 minutes) "
+  command: illumio-pce-ctl cluster-status -w 120 -x
   become: true
   become_user: ilo-pce
   register: cluster_status2
-  until: cluster_status2.rc == 1
-  failed_when: "'status: RUNNING' not in cluster_status.stdout or 'runlevel: 5' not in cluster_status2.stdout"
-  retries: 0
+  until: cluster_status2.rc == 0
+  failed_when: "'Cluster status: RUNNING' not in cluster_status2.stdout or 'runlevel: 5' not in cluster_status2.stdout"
+  retries: 5                  # Number of retries
+  delay: 10                     # Delay between retries in seconds
   when: "prefix_name in group_names and node_type in ['core0']"
   args:
     chdir: /tmp/
