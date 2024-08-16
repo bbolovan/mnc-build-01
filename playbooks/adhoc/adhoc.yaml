@@ -9,7 +9,8 @@
       register: result
       until: result.rc == 1
       failed_when: "'status: RUNNING' not in result.stdout or 'runlevel: 5' not in result.stdout"
-      # until: result.rc == 1
+      retries: 12                   # Number of retries
+
     # - name: Display command output
     #   debug:
     #     msg: "{{ result.stdout }}"
