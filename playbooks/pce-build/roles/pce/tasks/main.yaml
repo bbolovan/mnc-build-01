@@ -202,17 +202,17 @@
     chdir: /tmp/
 
 
-- name: "Set PCE to runlevel 1"
-  command: illumio-pce-ctl set-runlevel 1
-  become: true
-  become_user: ilo-pce
-  register: command_result
-  until: command_result.rc == 1
-  failed_when: command_result.rc == 0
-  ignore_errors: true
-  when: "prefix_name in group_names and pce_status.rc == 0 and node_type in ['core0']"
-  args:
-    chdir: /tmp/
+# - name: "Set PCE to runlevel 1"
+#   command: illumio-pce-ctl set-runlevel 1
+#   become: true
+#   become_user: ilo-pce
+#   register: command_result
+#   until: command_result.rc == 1
+#   failed_when: command_result.rc == 0
+#   ignore_errors: true
+#   when: "prefix_name in group_names and pce_status.rc == 0 and node_type in ['core0']"
+#   args:
+#     chdir: /tmp/
 
 
 - name: "Wait for the pce to start to runlevel 1"
@@ -221,9 +221,9 @@
   become_user: ilo-pce
   register: pce_status2
   until: pce_status2.rc == 1
-  failed_when: pce_status2.rc > 3
+  failed_when: "'RUNNING' not in pce_status2.stdout"
   retries: 0
-  when: "prefix_name in group_names and (pce_status.rc == 3 or pce_status.rc == 0)"
+  when: "prefix_name in group_names"
   args:
     chdir: /tmp/
 
@@ -234,20 +234,19 @@
   become_user: ilo-pce
   register: command_result
   until: command_result.rc == 0
-  when: "prefix_name in group_names and (pce_status.rc == 2 or pce_status2.rc|default(0) == 2)"
+  when: "'RUNNING' not in pce_status2.stdout"
   args:
     chdir: /tmp
 
 
 - name: "Wait for the PCE to start to runlevel 1"
-  command: illumio-pce-ctl status -w 180
+  command: illumio-pce-ctl cluster-status -x
   become: true
   become_user: ilo-pce
-  register: pce_status2
-  until: pce_status2.rc == 1
-  failed_when: pce_status2.rc > 3
+  register: cluster_status
+  failed_when: "'status: RUNNING' not in cluster_status.stdout or 'Reachable: 4 of 4' not in cluster_status.stdout"
   retries: 0
-  when: "prefix_name in group_names and (pce_status.rc == 2 or pce_status2.rc|default(0) == 2)"
+  when: "prefix_name in group_names "
   args:
     chdir: /tmp/
 
@@ -277,13 +276,13 @@
     chdir: /tmp/
 
 
-- name: "Waiting for PCE to reach run-level 5"
-  command: illumio-pce-ctl status -x
+- name: "Waiting for PCE to reach run-level 5 - 600 seconds"
+  command: illumio-pce-ctl status -w 600
   become: true
   become_user: ilo-pce
-  register: pce_status
-  until: pce_status.rc == 0
-  failed_when: pce_status.rc == 3 or 'STOPPED' in pce_status.stdout
+  register: pce_status4
+  until: pce_status.rc == 1
+  failed_when: "'RUNNING' not in pce_status4.stdout"
   retries: 0
   when: "prefix_name in group_names"
   args:
@@ -291,12 +290,12 @@
 
 
 - name: "Waiting for Cluster Status to reach run-level 5"
-  command: illumio-pce-ctl cluster-status -x
+  command: illumio-pce-ctl cluster-status
   become: true
   become_user: ilo-pce
-  register: cluster_status
-  until: cluster_status.rc == 0
-  failed_when: cluster_status.rc > 2
+  register: cluster_status2
+  until: cluster_status2.rc == 1
+  failed_when: "'status: RUNNING' not in cluster_status.stdout or 'runlevel: 5' not in cluster_status2.stdout"
   retries: 0
   when: "prefix_name in group_names and node_type in ['core0']"
   args:
