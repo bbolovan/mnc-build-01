@@ -161,11 +161,9 @@
       group: ilo-pce    
   when: "prefix_name in group_names"
 
-- name: Create data_dir
-  hosts: all
-  tasks:
-    - name: Create directory with specific user and group
-      file:
+
+- name: "Create datadir"
+  file:
         path: "{{ data_dir }}"
         state: directory
         owner: ilo-pce
