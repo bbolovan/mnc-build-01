@@ -1,6 +1,6 @@
 ---
 - name: Run a command and collect output and return code
-  hosts: all
+  hosts: core0
   tasks:
     - name: "Waiting for Cluster Status to reach run-level 5"
       command: illumio-pce-ctl cluster-status
@@ -11,9 +11,9 @@
       failed_when: "'status: RUNNING' not in result.stdout or 'runlevel: 5' not in result.stdout"
       retries: 12                   # Number of retries
 
-    # - name: Display command output
-    #   debug:
-    #     msg: "{{ result.stdout }}"
+    - name: Display command output
+      debug:
+        msg: "{{ result.stdout }}"
 
     - name: Display return code
       debug:
