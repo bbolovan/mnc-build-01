@@ -216,24 +216,27 @@
 
 
 - name: "Wait for the pce to start to runlevel 1"
-  command: illumio-pce-ctl status -w 180
+  command: illumio-pce-ctl status -w 180 -x
   become: true
   become_user: ilo-pce
   register: pce_status2
-  until: pce_status2.rc == 1
+  until: pce_status2.rc == 0
   failed_when: "'RUNNING' not in pce_status2.stdout"
-  retries: 0
+  retries: 3                  # Number of retries
+  delay: 10                     # Delay between retries in seconds
   when: "prefix_name in group_names"
   args:
     chdir: /tmp/
 
-
+# Run on all nodes - when not Running yet.
 - name: "Restart stalled node"
   command: illumio-pce-ctl restart
   become: true
   become_user: ilo-pce
   register: command_result
   until: command_result.rc == 0
+  retries: 3                  # Number of retries
+  delay: 10                     # Delay between retries in seconds
   when: "'RUNNING' not in pce_status2.stdout"
   args:
     chdir: /tmp
