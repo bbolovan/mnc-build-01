@@ -7,7 +7,7 @@
       become: true
       become_user: ilo-pce
       register: result
-
+      until: result.rc == 1
     # - name: Display command output
     #   debug:
     #     msg: "{{ result.stdout }}"
