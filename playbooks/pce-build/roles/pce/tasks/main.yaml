@@ -202,27 +202,16 @@
     chdir: /tmp/
 
 
-# - name: "Set PCE to runlevel 1"
-#   command: illumio-pce-ctl set-runlevel 1
-#   become: true
-#   become_user: ilo-pce
-#   register: command_result
-#   until: command_result.rc == 1
-#   failed_when: command_result.rc == 0
-#   ignore_errors: true
-#   when: "prefix_name in group_names and pce_status.rc == 0 and node_type in ['core0']"
-#   args:
-#     chdir: /tmp/
 
 
-- name: "Wait for the pce to start to runlevel 1"
-  command: illumio-pce-ctl status -w 180 -x
+- name: "Wait for the pce to start to runlevel 1( up to 15 minutes)"
+  command: illumio-pce-ctl status -w 60 -x
   become: true
   become_user: ilo-pce
   register: pce_status2
   until: pce_status2.rc == 0
   failed_when: "'RUNNING' not in pce_status2.stdout"
-  retries: 3                  # Number of retries
+  retries: 15                  # Number of retries
   delay: 10                     # Delay between retries in seconds
   when: "prefix_name in group_names"
   args:
@@ -241,8 +230,8 @@
   args:
     chdir: /tmp
 
-# Run on all nodes
-- name: "Wait for the PCE to start to runlevel 1"
+# Run on core0
+- name: "Check runlevel 1 Cluster status PCE to start to runlevel 1 (up to 10 minutes)"
   command: illumio-pce-ctl cluster-status -w 120 -x
   become: true
   become_user: ilo-pce
@@ -251,7 +240,7 @@
   until: cluster_status.rc == 0
   retries: 5                  # Number of retries
   delay: 10                     # Delay between retries in seconds
-  when: "prefix_name in group_names "
+  when: "prefix_name in group_names and node_type in ['core0']"
   args:
     chdir: /tmp/
 
@@ -281,28 +270,28 @@
     chdir: /tmp/
 
  # Run on all nodes
-- name: "Waiting for PCE to reach run-level 5 - 600 seconds"
-  command: illumio-pce-ctl status -w 200
+- name: "Waiting for PCE to reach run-level 5 - (up to 15 minutes)"
+  command: illumio-pce-ctl status -w 120
   become: true
   become_user: ilo-pce
   register: pce_status4
   until: pce_status.rc == 1
   failed_when: "'RUNNING' not in pce_status4.stdout"
-  retries: 3                   # Number of retries
+  retries: 8                   # Number of retries
   delay: 10                     # Delay between retries in seconds
   when: "prefix_name in group_names"
   args:
     chdir: /tmp/
 
  # Run on core0
-- name: "Waiting for Cluster Status to reach run-level 5 ( 10 minutes) "
+- name: "Waiting for Cluster Status to reach run-level 5 ( up to 15 minutes) "
   command: illumio-pce-ctl cluster-status -w 120 -x
   become: true
   become_user: ilo-pce
   register: cluster_status2
   until: cluster_status2.rc == 0
   failed_when: "'Cluster status: RUNNING' not in cluster_status2.stdout or 'runlevel: 5' not in cluster_status2.stdout"
-  retries: 5                  # Number of retries
+  retries: 8                  # Number of retries
   delay: 10                     # Delay between retries in seconds
   when: "prefix_name in group_names and node_type in ['core0']"
   args:
