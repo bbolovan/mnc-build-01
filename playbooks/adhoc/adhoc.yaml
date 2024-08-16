@@ -3,7 +3,7 @@
   hosts: core0
   tasks:
     - name: "Waiting for Cluster Status to reach run-level 5"
-      command: illumio-pce-ctl cluster-status -w 120-x
+      command: illumio-pce-ctl cluster-status -w 120 -x
       become: true
       become_user: ilo-pce
       register: result
