@@ -8,8 +8,6 @@
   register: result
   # until: cluster_status2.rc == 1
   when: "prefix_name in group_names and node_type in ['core0']"
-  args:
-    chdir: /tmp/
 
 - name: Display command output
   debug:
