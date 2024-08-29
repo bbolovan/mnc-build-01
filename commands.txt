@@ -1,9 +1,15 @@
-#ansible-playbook -u ansible --extra-vars "@./mnc13.yml.19.3.0" ./pce-build/pce-build.yaml
-#ansible-playbook -u ansible --extra-vars "@./mnc13.yml.19.3.1" ./pce-build/pce-upgrade.yaml
-#ansible-playbook -u ansible --extra-vars "@./mnc13.yml.19.3.1" ./pce-build/pce-destroy.yaml
-ansible-playbook -u ansible --extra-vars "@./snc1.yml" ./pce-build/pce-build.yaml
-#ansible-playbook -u ansible --extra-vars "@./snc1.yml" ./pce-build/pce-upgrade.yaml
-#ansible-playbook -u ansible --extra-vars "@./snc1.yml" ./pce-build/pce-destroy.yaml
-ansible-playbook -u root -I "@./inventory/hosts" ./playbooks/ansible-ssh-access/ansible-ssh-access-to-hosts.yml --ask-pass
-#
+#Execute-ansible-playbook-mnc-build-01-pce-build.sh
 
+#!/bin/bash
+cd /home/ansible/mnc-build-01
+ansible-playbook -u ansible  -i /home/ansible/mnc-build-01/inventory/hosts  --extra-vars "@./vars/mnc13.yml" ./playbooks/pce-build/pce-build.yaml
+#Build with debug
+#ansible-playbook -u ansible  -vvvv -i /home/ansible/mnc-build-01/inventory/hosts  --extra-vars "@./vars/mnc13.yml" ./playbooks/pce-build/pce-build.yaml
+
+
+#Execute-ansible-playbook-mnc-build-01-pce-destroy.sh
+#!/bin/bash
+cd /home/ansible/mnc-build-01
+ansible-playbook -u ansible   -i /home/ansible/mnc-build-01/inventory/hosts  --extra-vars "@./vars/mnc13.yml" ./playbooks/pce-destroy/pce-destroy.yaml
+#Destroy with debug
+#ansible-playbook -u ansible -vvvv  -i /home/ansible/mnc-build-01/inventory/hosts  --extra-vars "@./vars/mnc13.yml" ./playbooks/pce-destroy/pce-destroy.yaml
