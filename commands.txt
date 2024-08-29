@@ -1,3 +1,8 @@
+The commands below are used to initiate the playbooks pce-build, pce destroy.
+in my environment the github pull of the mnc-build-01 directory is present in the /home/ansible path.
+In your environment it might be different, so please adjust the path as needed.
+
+
 #Execute-ansible-playbook-mnc-build-01-pce-build.sh
 
 #!/bin/bash
