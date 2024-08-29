@@ -271,11 +271,11 @@
 
  # Run on all nodes
 - name: "Waiting for PCE to reach run-level 5 - (up to 15 minutes)"
-  command: illumio-pce-ctl status -w 120
+  command: illumio-pce-ctl status -w 120 -x
   become: true
   become_user: ilo-pce
   register: pce_status4
-  until: pce_status.rc == 1
+  until: pce_status.rc == 0
   failed_when: "'RUNNING' not in pce_status4.stdout"
   retries: 8                   # Number of retries
   delay: 10                     # Delay between retries in seconds
